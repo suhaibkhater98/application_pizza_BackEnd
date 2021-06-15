@@ -1,3 +1,8 @@
+## create database called pizza_application 
+## apply all the query from database_structure file 
+## export the pizza_application_items file to insert the data to database
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
