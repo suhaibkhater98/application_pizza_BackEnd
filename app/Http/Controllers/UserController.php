@@ -58,4 +58,16 @@ class UserController extends Controller
             return response()->json(['error' => 'Unauthorised' ], 401 );
         }
     }
+
+    public function logout(Request $request){
+        $data = [];
+        if($request->user()->tokens()->delete()){
+            $data['success'] = 1;
+            $data['msg'] = 'Logged out';
+        } else {
+            $data['success'] = 0;
+            $data['msg'] = 'Something went wrong';
+        }
+        return json_encode($data);
+    }
 }
