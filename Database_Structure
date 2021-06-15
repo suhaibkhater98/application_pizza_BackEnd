@@ -1,0 +1,167 @@
+create table if not exists failed_jobs
+(
+	id bigint unsigned auto_increment
+		primary key,
+	uuid varchar(255) not null,
+	connection text not null,
+	queue text not null,
+	payload longtext not null,
+	exception longtext not null,
+	failed_at timestamp default CURRENT_TIMESTAMP not null,
+	constraint failed_jobs_uuid_unique
+		unique (uuid)
+)
+collate=utf8mb4_unicode_ci;
+
+create table if not exists items
+(
+	id bigint unsigned auto_increment
+		primary key,
+	title varchar(255) not null,
+	description varchar(255) not null,
+	price int not null,
+	img varchar(255) not null,
+	created_at timestamp null,
+	updated_at timestamp null
+)
+collate=utf8mb4_unicode_ci;
+
+create table if not exists items_orders
+(
+	id int auto_increment
+		primary key,
+	order_id int not null,
+	item_id int not null,
+	quantity int null,
+	created_at datetime null,
+	updated_at datetime null
+);
+
+create table if not exists migrations
+(
+	id int unsigned auto_increment
+		primary key,
+	migration varchar(255) not null,
+	batch int not null
+)
+collate=utf8mb4_unicode_ci;
+
+create table if not exists oauth_access_tokens
+(
+	id varchar(100) not null
+		primary key,
+	user_id bigint unsigned null,
+	client_id bigint unsigned not null,
+	name varchar(255) null,
+	scopes text null,
+	revoked tinyint(1) not null,
+	created_at timestamp null,
+	updated_at timestamp null,
+	expires_at datetime null
+)
+collate=utf8mb4_unicode_ci;
+
+create index oauth_access_tokens_user_id_index
+	on oauth_access_tokens (user_id);
+
+create table if not exists oauth_auth_codes
+(
+	id varchar(100) not null
+		primary key,
+	user_id bigint unsigned not null,
+	client_id bigint unsigned not null,
+	scopes text null,
+	revoked tinyint(1) not null,
+	expires_at datetime null
+)
+collate=utf8mb4_unicode_ci;
+
+create index oauth_auth_codes_user_id_index
+	on oauth_auth_codes (user_id);
+
+create table if not exists oauth_clients
+(
+	id bigint unsigned auto_increment
+		primary key,
+	user_id bigint unsigned null,
+	name varchar(255) not null,
+	secret varchar(100) null,
+	provider varchar(255) null,
+	redirect text not null,
+	personal_access_client tinyint(1) not null,
+	password_client tinyint(1) not null,
+	revoked tinyint(1) not null,
+	created_at timestamp null,
+	updated_at timestamp null
+)
+collate=utf8mb4_unicode_ci;
+
+create index oauth_clients_user_id_index
+	on oauth_clients (user_id);
+
+create table if not exists oauth_personal_access_clients
+(
+	id bigint unsigned auto_increment
+		primary key,
+	client_id bigint unsigned not null,
+	created_at timestamp null,
+	updated_at timestamp null
+)
+collate=utf8mb4_unicode_ci;
+
+create table if not exists oauth_refresh_tokens
+(
+	id varchar(100) not null
+		primary key,
+	access_token_id varchar(100) not null,
+	revoked tinyint(1) not null,
+	expires_at datetime null
+)
+collate=utf8mb4_unicode_ci;
+
+create index oauth_refresh_tokens_access_token_id_index
+	on oauth_refresh_tokens (access_token_id);
+
+create table if not exists orders
+(
+	id bigint unsigned auto_increment
+		primary key,
+	user_id int null,
+	total_price int not null,
+	phone_number varchar(255) not null,
+	location varchar(255) not null,
+	deleted tinyint default 0 not null,
+	cancel tinyint default 0 not null,
+	created_at timestamp null,
+	updated_at timestamp null
+)
+collate=utf8mb4_unicode_ci;
+
+create table if not exists password_resets
+(
+	email varchar(255) not null,
+	token varchar(255) not null,
+	created_at timestamp null
+)
+collate=utf8mb4_unicode_ci;
+
+create index password_resets_email_index
+	on password_resets (email);
+
+create table if not exists users
+(
+	id bigint unsigned auto_increment
+		primary key,
+	name varchar(255) not null,
+	email varchar(255) not null,
+	email_verified_at timestamp null,
+	password varchar(255) not null,
+	remember_token varchar(100) null,
+	created_at timestamp null,
+	updated_at timestamp null,
+	constraint users_email_unique
+		unique (email)
+)
+collate=utf8mb4_unicode_ci;
+
+
