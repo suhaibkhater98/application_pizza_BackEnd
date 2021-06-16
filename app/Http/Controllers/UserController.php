@@ -15,15 +15,21 @@ class UserController extends Controller
 
     public function register(Request $request){
         $data = [];
-        if($request->input('name') === null || empty($request->input('name'))){
+        if($request->input('name') === null){
             $data['success'] = 0;
             $data['msg'] = 'the name should be filled';
-        } else if ($request->input('email') === null || empty($request->input('email'))){
+        } else if ($request->input('email') === null){
             $data['success'] = 0;
             $data['msg'] = 'the email should be filled';
-        } else if ($request->input('password') === null || empty($request->input('password'))){
+        } else if ($request->input('password') === null){
             $data['success'] = 0;
             $data['msg'] = 'password must be filled';
+        } else if($request->input('password_confirmed') === null){
+            $data['success'] = 0;
+            $data['msg'] = 'Missing confirmed password';
+        } else if($request->input('password_confirmed') !== $request->input('password')){
+            $data['success'] = 0;
+            $data['msg'] = 'Password and Confirm password does not match';
         } else {
             //check if the email exist first
             $check_exist_email = DB::table('users')->where('email', '=',$request->input('email'))->first();
